@@ -2,20 +2,27 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
-// I am re-sorting this array, which is unnecessary.
-
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
-	merged_arr := nums1
-	for _, el := range nums2 {
-		merged_arr = append(merged_arr, el)
-	}
+	var merged_arr []int
 
-	sort.Slice(merged_arr, func(i, j int) bool {
-		return merged_arr[i] > merged_arr[j]
-	})
+	for len(nums1) > 0 || len(nums2) > 0 {
+		if len(nums1) == 0 {
+			merged_arr = append(merged_arr, nums2[0])
+			nums2 = nums2[1:]
+		} else if len(nums2) == 0 {
+			merged_arr = append(merged_arr, nums1[0])
+			nums1 = nums1[1:]
+		} else if nums1[0] <= nums2[0] {
+			merged_arr = append(merged_arr, nums1[0])
+			nums1 = nums1[1:]
+		} else {
+			merged_arr = append(merged_arr, nums2[0])
+			nums2 = nums2[1:]
+		}
+	}
+	fmt.Println(merged_arr)
 
 	if len(merged_arr)%2 == 1 {
 		return float64(merged_arr[len(merged_arr)/2])
