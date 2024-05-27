@@ -4,6 +4,8 @@ import (
 	"strings"
 )
 
+// https://docs.google.com/spreadsheets/d/1KTbVslo-2oXSWEpUGoSCyXUjV8N4IXhQUR9ACiLIjS0/edit?usp=sharing
+
 func convert(s string, numRows int) string {
 	var sb strings.Builder
 	if numRows == 1 {
