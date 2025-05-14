@@ -8,21 +8,21 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	var mergedArr []int
 
 	for len(nums1) > 0 || len(nums2) > 0 {
-		if len(nums1) == 0 {
+		switch {
+		case len(nums1) == 0:
 			mergedArr = append(mergedArr, nums2[0])
 			nums2 = nums2[1:]
-		} else if len(nums2) == 0 {
+		case len(nums2) == 0:
 			mergedArr = append(mergedArr, nums1[0])
 			nums1 = nums1[1:]
-		} else if nums1[0] <= nums2[0] {
+		case nums1[0] <= nums2[0]:
 			mergedArr = append(mergedArr, nums1[0])
 			nums1 = nums1[1:]
-		} else {
+		default:
 			mergedArr = append(mergedArr, nums2[0])
 			nums2 = nums2[1:]
 		}
 	}
-	fmt.Println(mergedArr)
 
 	if len(mergedArr)%2 == 1 {
 		return float64(mergedArr[len(mergedArr)/2])
