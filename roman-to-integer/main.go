@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-var symbolValue = map[string]int
+var symbolValue = map[string]int{
 	"I": 1,
 	"V": 5,
 	"X": 10,
@@ -12,37 +12,42 @@ var symbolValue = map[string]int
 	"C": 100,
 	"D": 500,
 	"M": 1000,
-    "M": 1000,
 }
 
+func romanToInt(s string) int {
+	var (
+		l                     = len(s)
+		r                     string
+		recentVal, currentVal int
+	)
 
-	var l int = len(s)
-	var r string
-	recent_val := 0
-	var current_val int
 	res := 0
 	for i := 0; i < l; i++ {
 		r = string(rune(s[i]))
-		current_val = symbolValue[r]
-		if current_val > recent_val && recent_val != 0 {
-			res += (current_val - recent_val)
-			recent_val = 0
+
+		currentVal = symbolValue[r]
+
+		if currentVal > recentVal && recentVal != 0 {
+			res += currentVal - recentVal
+
+			currentVal = 0
 		} else {
-			res += recent_val
-			recent_val = current_val
+			res += recentVal
+
+			recentVal = currentVal
 		}
 
 	}
-	if recent_val != 0 {
-		res += recent_val
+	if recentVal != 0 {
+		res += recentVal
 	}
+
 	return res
-    return res
 }
+
 func main() {
 	fmt.Println(romanToInt("III"))
 	fmt.Println(romanToInt("XIV"))
 	fmt.Println(romanToInt("XXXIII"))
-    fmt.Println(romanToInt("XXXIII"))
-
+	fmt.Println(romanToInt("XXXIII"))
 }
