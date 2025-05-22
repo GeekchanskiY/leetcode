@@ -16,12 +16,11 @@ var symbolValue = map[string]int{
 
 func romanToInt(s string) int {
 	var (
-		l                     = len(s)
-		r                     string
-		recentVal, currentVal int
+		l                          = len(s)
+		r                          string
+		recentVal, currentVal, res int
 	)
 
-	res := 0
 	for i := 0; i < l; i++ {
 		r = string(rune(s[i]))
 
