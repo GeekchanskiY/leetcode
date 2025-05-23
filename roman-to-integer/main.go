@@ -4,25 +4,25 @@ import (
 	"fmt"
 )
 
-var symbolValue = map[string]int{
-	"I": 1,
-	"V": 5,
-	"X": 10,
-	"L": 50,
-	"C": 100,
-	"D": 500,
-	"M": 1000,
+var symbolValue = map[rune]int{
+	'I': 1,
+	'V': 5,
+	'X': 10,
+	'L': 50,
+	'C': 100,
+	'D': 500,
+	'M': 1000,
 }
 
 func romanToInt(s string) int {
 	var (
 		l                          = len(s)
-		r                          string
+		r                          rune
 		recentVal, currentVal, res int
 	)
 
 	for i := 0; i < l; i++ {
-		r = string(rune(s[i]))
+		r = rune(s[i])
 
 		currentVal = symbolValue[r]
 
@@ -37,6 +37,7 @@ func romanToInt(s string) int {
 		}
 
 	}
+
 	if recentVal != 0 {
 		res += recentVal
 	}
@@ -48,5 +49,5 @@ func main() {
 	fmt.Println(romanToInt("III"))
 	fmt.Println(romanToInt("XIV"))
 	fmt.Println(romanToInt("XXXIII"))
-	fmt.Println(romanToInt("XXXIII"))
+	fmt.Println(romanToInt("XXXVIII"))
 }
