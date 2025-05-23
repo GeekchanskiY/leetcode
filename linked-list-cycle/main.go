@@ -28,6 +28,8 @@ func hasCycle(head *ListNode) bool {
 	return false
 }
 
+// https://live-scripts.blogspot.com/2013/01/blog-post_16.html - it would be fun to implement the second variant
+
 func main() {
 	listNode1 := &ListNode{
 		Val:  1,
