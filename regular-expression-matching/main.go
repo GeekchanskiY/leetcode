@@ -11,95 +11,59 @@ import (
 // It must match the entire string! (makes it easier)
 func isMatch(s string, p string) bool {
 	var (
-		i                 int
-		strIdx, newStrIdx int
-		currentRegex      rune
+		m, n = len(s), len(p)
+		dp   = make([][]bool, m+1)
 	)
 
-	if p == s {
-		return true
+	for i := range dp {
+		dp[i] = make([]bool, n+1)
 	}
 
-	for i = 0; i < len(p); i++ {
-		if strIdx >= len(s) {
-			return false
+	dp[0][0] = true
+
+	// Handle cases where pattern starts with '*' (only valid when preceding character exists)
+	for j := 1; j <= n; j++ {
+		if p[j-1] == '*' {
+			dp[0][j] = dp[0][j-2] // '*' can match empty sequence
 		}
+	}
 
-		currentRegex = rune(p[i])
-
-		if i+1 < len(p) && p[i+1] == '*' {
-			newStrIdx = processStar(s, strIdx, rune(p[i]))
-
-			// process if .* has the next character
-			if newStrIdx == len(s) {
-				if len(p) == i+2 {
-					return true
-				}
-
-				i++
-				strIdx += 1
-
-				continue
+	for i := 1; i <= m; i++ {
+		for j := 1; j <= n; j++ {
+			if p[j-1] == s[i-1] || p[j-1] == '.' { // Direct match or wildcard '.'
+				dp[i][j] = dp[i-1][j-1]
+			} else if p[j-1] == '*' { // Handle '*' properly
+				dp[i][j] = dp[i][j-2] || (dp[i-1][j] && (s[i-1] == p[j-2] || p[j-2] == '.'))
 			}
-
-			strIdx = newStrIdx
-
-			i++
-
-			continue
-		}
-
-		if currentRegex == '.' {
-			strIdx += 1
-
-			continue
-		}
-
-		if rune(s[strIdx]) != currentRegex {
-			return false
-		}
-
-		strIdx += 1
-	}
-
-	if strIdx != len(s) {
-		return false
-	}
-
-	return true
-}
-
-// processStar returns if * matches, and the next position to process
-func processStar(s string, pos int, starVal rune) int {
-	if starVal == '.' {
-		return len(s)
-	}
-
-	for i := pos; i < len(s); i++ {
-		if rune(s[i]) != starVal {
-			return i
 		}
 	}
 
-	return len(s)
-}
-
-func restoreDotStar(s string, pos int) {
-
+	return dp[m][n]
 }
 
 func main() {
 	// fmt.Println(isMatch("aa", "a"))
 	// fmt.Println(isMatch("aa", "a*"))
 	// fmt.Println(isMatch("aab", "a*"))
-	fmt.Println(isMatch("aaa", "a*a"))
+	// fmt.Println(isMatch("aaa", "a*a"))
 	// fmt.Println(isMatch("aabbcc", "aabbcc"))
 	// fmt.Println(isMatch("ab", ".*"))
 
 	// fmt.Println(isMatch("mississippi", "mis*is*p*."))
-	//
+
 	// fmt.Println(isMatch("aab", "c*a*b"))
 
 	// fmt.Println(isMatch("ab", ".*c"))
 	// fmt.Println(isMatch("cab", "c.*"))
+	// fmt.Println(isMatch("aab", "c***a*b") == true)
+	// fmt.Println(isMatch("a", "ab*") == true)
+	// fmt.Println(isMatch("a", "ab*a") == false)
+	// fmt.Println(isMatch("a", "ab*a*c*") == true)
+	// fmt.Println(isMatch("a", ".*..a*") == false)
+	// fmt.Println(isMatch("a", "..a*"))
+	// fmt.Println(isMatch("abbbcd", "ab*bbbcd"))
+	// fmt.Println(isMatch("abcd", "d*"))
+	fmt.Println(isMatch("abbabaaaaaaacaa", "a*.*b.a.*c*b*a*c*"))
+
+	fmt.Println(isMatch("ab", ".*c"))
 }
