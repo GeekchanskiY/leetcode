@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// Store diff in hashmap
+// speed, space - O(n)
 func twoSumHashMap(nums []int, target int) []int {
 	res := make([]int, 2)
 	diffMap := make(map[int]int)
@@ -22,6 +24,8 @@ func twoSumHashMap(nums []int, target int) []int {
 	return res
 }
 
+// Bruteforce
+// speed - O(n^2), space - O(1)
 func twoSum(nums []int, target int) []int {
 	for i1, x := range nums {
 		for i2, y := range nums {
