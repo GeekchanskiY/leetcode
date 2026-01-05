@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/plus-one
+
 package main
 
 import "fmt"
@@ -36,9 +38,29 @@ import "fmt"
 //}
 
 func plusOne(digits []int) []int {
-	return nil
+	for i := len(digits) - 1; i >= 0; i-- {
+		if digits[i] == 9 {
+			digits[i] = 0
+
+			if i == 0 {
+				digits = append(digits, 0)
+				digits[0] = 1
+
+				break
+			}
+
+			continue
+		}
+
+		digits[i] += 1
+
+		break
+	}
+
+	return digits
 }
 
 func main() {
 	fmt.Println(plusOne([]int{1, 2, 3}))
+	fmt.Println(plusOne([]int{9, 9, 9}))
 }
